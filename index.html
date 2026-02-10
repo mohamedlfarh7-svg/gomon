@@ -1,628 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoMoney - Gestion des Prêts</title>
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: #f4f7fb;
-    color: #333;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-}
-
-a {
-    text-decoration: none;
-}
-
-header {
-  display:flex;
-  justify-content:space-between; 
-  align-items:center; 
-  padding:15px 50px; 
-  background: linear-gradient(90deg, #044069, #03406b); 
-  color:white; 
-  position:fixed; 
-  width:100%; 
-  top:0; 
-  z-index:1000; 
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-header h1 { 
-  font-size:28px; 
-  font-weight:700; 
-}
-
-.nav-links { 
-  display:flex; 
-  align-items:center; 
-  gap:20px; 
-}
-.nav-links ul { 
-  display:flex; gap:20px; list-style:none; 
-}
-.nav-links ul li a { 
-  color:white; 
-  text-decoration:none; 
-  padding:5px 10px; 
-  border-radius:8px; 
-  transition:0.3s; 
-  font-weight:600; 
-}
-.nav-links ul li a:hover { 
-  background: rgba(255,255,255,0.1); 
-  color:#34c2c7; }
-
-.menu { 
-  display:none; 
-  font-size:30px; 
-  background:none; 
-  border:none; 
-  color:white; 
-  cursor:pointer; 
-}
-
-.close-btn { 
-  font-size:30px;  
-  background:none;
-   border:none; 
-   color:white; 
-   cursor:pointer; 
-   position:absolute; 
-   top:20px; right:20px; 
-  }
-
-.mobile-menu { 
-  display:none;
-   flex-direction:column; 
-   justify-content:center; 
-   align-items:center; gap:30px; 
-   position:fixed; top:0; left:0; 
-   height:100vh; width:100%; 
-   background:rgba(4,64,105,0.95); 
-   transform:translateY(-100%); transition:transform 0.5s ease; 
-   z-index:999; 
-  }
-.mobile-menu.show { 
-  transform:translateY(0); 
-}
-.mobile-menu li a { 
-  font-size:24px; color:white; 
-}
-@media(max-width:768px){
-  .menu { 
-    display:block; 
-  }
-  .nav-links ul.desktop-menu { 
-    display:none; 
-  }
-}
-.hero {
-    background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;
-    position: relative;
-    color: white;
-    text-align: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(2px);
-    z-index: 0;
-}
-
-.hero h2 {
-    position: relative;
-    font-size: 60px;
-    margin-bottom: 20px;
-    font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-}
-
-.hero p {
-    position: relative;
-    font-size: 26px;
-    margin-bottom: 35px;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
-}
-
-.hero .btn {
-    position: relative;
-    background: #34c2c7;
-    padding: 18px 50px;
-    border: none;
-    border-radius: 14px;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    z-index: 1;
-}
-
-.hero .btn:hover {
-    background: #0288d1;
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-}
-
-@media(max-width:1024px){
-    .hero h2 { font-size: 48px; }
-    .hero p { font-size: 22px; }
-    .hero .btn { font-size: 20px; padding: 15px 40px; }
-}
-@media(max-width:768px){
-    .hero h2 { font-size: 36px; }
-    .hero p { font-size: 18px; }
-    .hero .btn { font-size: 18px; padding: 12px 30px; }
-    .hero { height: 80vh; padding: 0 20px; }
-}
-
-
-
-.features, .additional-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-    padding: 0 20px;
-    justify-items: center;
-}
-
-.feature-card, .info-card {
-    border-radius: 20px;
-    overflow: hidden;
-    text-align: center;
-    position: relative;
-    transition: all 0.4s ease;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    background: #fff;
-}
-
-.feature-card img, .info-card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.feature-card h3, .info-card h4 {
-    margin: 20px 0 10px;
-    font-size: 24px;
-    color: #044069;
-    font-weight: 600;
-}
-
-.feature-card p, .info-card p {
-    padding: 0 20px 20px;
-    font-size: 16px;
-    color: #333;
-}
-
-.feature-card::before, .info-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, #34c2c7, #0288d1);
-    transform: rotate(45deg) scale(0);
-    transition: transform 0.5s ease;
-    opacity: 0;
-    z-index: 0;
-}
-
-.feature-card:hover::before, .info-card:hover::before {
-    transform: rotate(45deg) scale(1);
-    opacity: 0.1;
-}
-
-.feature-card:hover img, .info-card:hover img {
-    transform: scale(1.05);
-}
-
-.feature-card:hover, .info-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.25);
-}
-
-@media(max-width:1024px){
-    .features, .additional-info { gap: 25px; }
-    .feature-card h3, .info-card h4 { font-size: 22px; }
-}
-@media(max-width:768px){
-    .features, .additional-info {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .feature-card img, .info-card img { height: 200px; }
-}
-
-
-
-.testimonials {
-    background: #eef3f9;
-    padding: 100px 20px;
-    text-align: center;
-}
-
-.testimonials h2 {
-    color: #044069;
-    font-size: 42px;
-    margin-bottom: 60px;
-    font-weight: 700;
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    justify-items: center;
-}
-
-.testimonial-card {
-    background: white;
-    padding: 35px 20px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.testimonial-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, #34c2c7, #0288d1);
-    transform: rotate(45deg) scale(0);
-    transition: transform 0.5s ease;
-    z-index: 0;
-}
-
-.testimonial-card:hover::before {
-    transform: rotate(45deg) scale(1);
-    opacity: 0.1;
-}
-
-.testimonial-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 45px rgba(0,0,0,0.2);
-}
-
-.testimonial-card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid #34c2c7;
-    margin-bottom: 20px;
-    object-fit: cover;
-    z-index: 1;
-    position: relative;
-}
-
-.testimonial-card p {
-    font-style: italic;
-    margin-bottom: 15px;
-    color: #555;
-    font-size: 16px;
-}
-
-.testimonial-card h4 {
-    color: #044069;
-    font-weight: 600;
-    font-size: 18px;
-}
-
-@media(max-width:1024px){
-    .testimonials h2 { font-size: 38px; margin-bottom: 50px; }
-}
-@media(max-width:768px){
-    .testimonials {
-        padding: 80px 15px;
-    }
-    .testimonial-card {
-        width: 100%;
-        max-width: 100%;
-        margin: 15px 0;
-    }
-    .testimonial-card img { width: 60px; height: 60px; }
-    .testimonial-card h4 { font-size: 16px; }
-    .testimonial-card p { font-size: 14px; }
-    .testimonials h2 { font-size: 28px; margin-bottom: 35px; }
-}
-
-.download-app {
-    text-align: center;
-    color: white;
-    padding: 140px 20px;
-    border-radius: 20px;
-    margin: 50px 0;
-    background: url('https://images.unsplash.com/photo-1556742502-ec7c0e9f9f9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080') center/cover no-repeat;
-    position: relative;
-    overflow: hidden;
-}
-
-.download-app::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(2px);
-    z-index: 0;
-}
-
-.download-app h2,
-.download-app p,
-.download-app .btn {
-    position: relative;
-    z-index: 1;
-    text-shadow: 1px 1px 8px rgba(0,0,0,0.7);
-}
-
-.download-app h2 {
-    font-size: 42px;
-    margin-bottom: 25px;
-    font-weight: 700;
-}
-
-.download-app p {
-    font-size: 22px;
-    margin-bottom: 35px;
-}
-
-.download-app .btn {
-    background: #34c2c7;
-    padding: 18px 50px;
-    border: none;
-    border-radius: 14px;
-    font-size: 22px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    margin: 0 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-
-.download-app .btn:hover {
-    background: #0288d1;
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-}
-
-
-.contact-section {
-    text-align: center;
-    padding: 100px 20px;
-    background: #f4f6f8;
-    position: relative;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
-
-.contact-section h2 {
-    color: #044069;
-    font-size: 42px;
-    margin-bottom: 25px;
-    font-weight: 700;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.2);
-}
-
-.contact-section p {
-    font-size: 20px;
-    margin-bottom: 35px;
-    color: #333;
-    text-shadow: 0.5px 0.5px 4px rgba(0,0,0,0.1);
-}
-
-.contact-section .btn {
-    background: #34c2c7;
-    padding: 18px 50px;
-    border: none;
-    border-radius: 14px;
-    font-size: 22px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-}
-
-.contact-section .btn:hover {
-    background: #0288d1;
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-}
-@media(max-width:1024px){
-    .download-app h2 { font-size: 36px; }
-    .download-app p { font-size: 20px; }
-    .download-app .btn { font-size: 18px; padding: 15px 40px; }
-}
-@media(max-width:768px){
-    .download-app {
-        padding: 100px 15px;
-        border-radius: 15px;
-    }
-    .download-app h2 { font-size: 28px; }
-    .download-app p { font-size: 16px; }
-    .download-app .btn { font-size: 16px; padding: 12px 30px; margin: 10px 0; display: block; }
-    .contact-section {
-        padding: 60px 15px;
-    }
-    .contact-section h2 { font-size: 28px; }
-    .contact-section p { font-size: 16px; }
-    .contact-section .btn { font-size: 16px; padding: 12px 30px; }
-}
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    background: linear-gradient(90deg, #03406b, #044069);
-    color: white;
-    font-size: 15px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-}
-
-footer a {
-    color: #34c2c7;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-footer a:hover {
-    color: #ffffff;
-    text-decoration: underline;
-}
-
-@media(max-width:768px) {
-    .features, .additional-info {
-        flex-direction: column;
-        gap: 20px;
-    }
-    .hero h2 {
-        font-size: 32px;
-    }
-    .hero p {
-        font-size: 18px;
-    }
-    footer {
-        font-size: 14px;
-        padding: 25px 15px;
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoMoney | Finance Numérique Moderne</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .hero-gradient { background: radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.15) 0%, transparent 50%); }
+    </style>
 </head>
-<body>
-<header>
-  <h1 id="logo">GoMoney</h1>
-  <div class="nav-links">
-    <button class="menu" id="menu-btn">☰</button>
-    <ul class="mobile-menu" id="menu">
-      <li class="close-li"><button class="close-btn" id="close-btn">✖</button></li>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-    <ul class="desktop-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-  </div>
-</header>
+<body class="antialiased">
 
+    <!-- Header / Navigation -->
+    <header class="fixed w-full z-50 px-6 py-6">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center glass px-8 py-4 rounded-[2rem] shadow-2xl">
+            <h1 id="logo" class="text-2xl font-extrabold tracking-tighter uppercase italic">GO<span class="text-blue-500">MONEY</span></h1>
+            <div class="nav-links hidden md:flex items-center gap-10 text-sm font-bold text-slate-400 uppercase tracking-widest">
+                <ul class="desktop-menu flex gap-10">
+                    <li><a href="index.html" class="hover:text-blue-400 transition">Accueil</a></li>
+                    <li><a href="simulation.html" class="hover:text-blue-400 transition">Simulation</a></li>
+                    <li><a href="contct.html" class="hover:text-blue-400 transition">Contact</a></li>
+                    <li><a href="Aide.html" class="hover:text-blue-400 transition">Aide / FAQ</a></li>
+                </ul>
+            </div>
+            <button id="menu-btn" class="menu md:hidden text-white text-2xl" title="Ouvrir le menu"><i class="fa-solid fa-bars-staggered"></i></button>
+        </nav>
 
-<section class="hero">
-<h2>Gérez vos prêts simplement avec GoMoney</h2>
-<p>Simulez vos mensualités selon votre salaire et le type de prêt</p>
-<a href="simulation.html" class="btn">Commencer la simulation</a>
-</section>
+        <!-- Mobile Menu -->
+        <ul id="menu" class="mobile-menu hidden fixed inset-0 bg-[#0f172a] flex flex-col items-center justify-center gap-8 text-2xl font-bold z-50">
+            <li class="close-li absolute top-10 right-10"><button id="close-btn" class="close-btn text-4xl">&times;</button></li>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="simulation.html">Simulation</a></li>
+            <li><a href="contct.html">Contact</a></li>
+            <li><a href="Aide.html">Aide / FAQ</a></li>
+        </ul>
+    </header>
 
-<section class="features">
-<div class="feature-card"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400"><h3>Facilité d'utilisation</h3><p>Interface intuitive pour simuler vos prêts facilement.</p></div>
-<div class="feature-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx-u-Pz_wYQz8KGBkxHhX6yyYb6ISwHz4Q6Q&s"><h3>Calculs précis</h3><p>Algorithmes avancés pour estimations fiables.</p></div>
-<div class="feature-card"><img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400"><h3>Support client</h3><p>Notre équipe vous accompagne à chaque étape.</p></div>
-<div class="feature-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToIHH099wIirW7nDYY25mVXfHFshNdjesbtw&s"><h3>Sécurité totale</h3><p>Données et transactions entièrement sécurisées.</p></div>
-</section>
+    <!-- Hero Section (Inspiration Stric) -->
+    <section class="hero relative min-h-screen flex items-center pt-32 px-6 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="text-center lg:text-left">
+                <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+                    Smart Banking System
+                </div>
+                <h2 class="text-6xl lg:text-8xl font-extrabold leading-[0.9] mb-8 text-white">Gérez vos prêts <br><span class="text-blue-500 italic text-shadow-lg">simplement.</span></h2>
+                <p class="text-slate-400 text-lg md:text-xl max-w-lg mb-12 leading-relaxed mx-auto lg:mx-0">Simulez vos mensualités selon votre salaire et le type de prêt en temps réel avec notre interface 100% en ligne.</p>
+                <a href="simulation.html" class="btn bg-blue-600 hover:bg-blue-500 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-2xl shadow-blue-500/20 inline-block">Commencer la simulation</a>
+            </div>
+            <div class="relative hidden lg:flex justify-end">
+                <div class="relative z-10 group">
+                    <div class="absolute -inset-10 bg-blue-600/20 blur-[100px] rounded-full group-hover:bg-blue-600/30 transition"></div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg6jHw7BdQFWoEqBRRJe0Cy2OlRQdffCcYGA&s" class="relative rounded-[3rem] border border-white/10 shadow-2xl transform rotate-3 group-hover:rotate-0 transition duration-700 max-w-md">
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="additional-info">
-<div class="info-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTHdA5vEdM-K3gV7X47auwhORGQ2XSvKKzoA&s"><h4>Prêts personnels</h4><p>Obtenez un prêt rapidement pour vos besoins personnels.</p></div>
-<div class="info-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRADIPlzCqzuOUkQK18g2zCns4ZNRIh8yPQ4A&s"><h4>Prêts immobiliers</h4><p>Financement maison, appartement ou terrain facilement.</p></div>
-<div class="info-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFCCmuJyyBbyP4RkRs5rl49nFfQ5x9HJf7SA&s"><h4>Petites entreprises</h4><p>Prêts adaptés pour lancer ou développer votre entreprise.</p></div>
-<div class="info-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJuS6WQWhqtJCqKoRX0ObbzO62oCfapgNuRw&s"><h4>Investissements</h4><p>Solutions de financement pour vos projets d’investissement.</p></div>
-</section>
+    <!-- Features Section -->
+    <section class="features py-32 px-6 max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="feature-card glass p-8 rounded-[2.5rem] hover:border-blue-500/50 transition group">
+            <img src="data:image/png;base64,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" class="w-full h-44 object-cover rounded-3xl mb-6 group-hover:scale-105 transition duration-500">
+            <h3 class="text-xl font-bold mb-3">Facilité d'utilisation</h3>
+            <p class="text-slate-500 text-sm">Interface intuitive pour simuler vos prêts facilement en quelques secondes.</p>
+        </div>
+        <div class="feature-card glass p-8 rounded-[2.5rem] hover:border-blue-500/50 transition group">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9mUvOCQfjqvyLzU5-DrLc8rgTOboSn8vAoQ&s" class="w-full h-44 object-cover rounded-3xl mb-6 group-hover:scale-105 transition duration-500">
+            <h3 class="text-xl font-bold mb-3">Calculs précis</h3>
+            <p class="text-slate-500 text-sm">Algorithmes financiers avancés pour des estimations hautement fiables.</p>
+        </div>
+        <div class="feature-card glass p-8 rounded-[2.5rem] hover:border-blue-500/50 transition group">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSYVwjD4Z3DVMcgiUU92vn99GLCmCw159nqQ&s" class="w-full h-44 object-cover rounded-3xl mb-6 group-hover:scale-105 transition duration-500">
+            <h3 class="text-xl font-bold mb-3">Support client</h3>
+            <p class="text-slate-500 text-sm">Nos experts financiers vous accompagnent personnellement à chaque étape.</p>
+        </div>
+        <div class="feature-card glass p-8 rounded-[2.5rem] hover:border-blue-500/50 transition group">
+            <img src="https://www.csmmaroc.com/wp-content/uploads/2017/04/securite_banque-e1493851438496.png" class="w-full h-44 object-cover rounded-3xl mb-6 group-hover:scale-105 transition duration-500">
+            <h3 class="text-xl font-bold mb-3">Sécurité totale</h3>
+            <p class="text-slate-500 text-sm">Protection de vos données de niveau bancaire avec chiffrement intégral.</p>
+        </div>
+    </section>
 
-<section class="testimonials">
-<h2>Témoignages</h2>
+    <!-- Additional Info Section (Types de Prêts) -->
+    <section class="additional-info bg-[#0a0f1d] py-32 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="info-card glass p-8 rounded-3xl flex flex-col items-center text-center hover:bg-white/5 transition">
+                <i class="fa-solid fa-user-tie text-4xl text-blue-500 mb-6"></i>
+                <h4 class="font-bold mb-2">Prêts personnels</h4>
+                <p class="text-slate-500 text-xs italic leading-relaxed">Solution rapide pour vos besoins de financement personnels.</p>
+            </div>
+            <div class="info-card glass p-8 rounded-3xl flex flex-col items-center text-center hover:bg-white/5 transition">
+                <i class="fa-solid fa-house-chimney text-4xl text-blue-500 mb-6"></i>
+                <h4 class="font-bold mb-2">Prêts immobiliers</h4>
+                <p class="text-slate-500 text-xs italic leading-relaxed">Financez votre projet maison ou terrain en toute sérénité.</p>
+            </div>
+            <div class="info-card glass p-8 rounded-3xl flex flex-col items-center text-center hover:bg-white/5 transition">
+                <i class="fa-solid fa-briefcase text-4xl text-blue-500 mb-6"></i>
+                <h4 class="font-bold mb-2">Petites entreprises</h4>
+                <p class="text-slate-500 text-xs italic leading-relaxed">Crédits adaptés pour le lancement ou la croissance d'entreprise.</p>
+            </div>
+            <div class="info-card glass p-8 rounded-3xl flex flex-col items-center text-center hover:bg-white/5 transition">
+                <i class="fa-solid fa-chart-line text-4xl text-blue-500 mb-6"></i>
+                <h4 class="font-bold mb-2">Investissements</h4>
+                <p class="text-slate-500 text-xs italic leading-relaxed">Optimisez vos rendements avec nos solutions de financement.</p>
+            </div>
+        </div>
+    </section>
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/women/68.jpg"/>
-<p>"GoMoney m'a aidé à comprendre combien je pouvais emprunter facilement."</p>
-<h4>- Sarah L.</h4>
-</div>
+    <!-- Testimonials Section -->
+    <section class="testimonials py-32 px-6 max-w-7xl mx-auto">
+        <h2 class="text-4xl font-black text-center mb-24 uppercase tracking-widest text-slate-500 italic opacity-50">Témoignages</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="testimonial-card glass p-10 rounded-[3rem] relative">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqEdp1_wn-Ahzbr0iEoF3ZEYs4CZyL-vg4Zw&s" class="w-16 h-16 rounded-2xl absolute -top-8 left-10 border-2 border-blue-500 shadow-2xl">
+                <p class="text-slate-400 italic mb-8 mt-4 leading-relaxed">"GoMoney m'a aidé à comprendre mes capacités d'emprunt en quelques clics."</p>
+                <h4 class="font-black text-white text-sm uppercase tracking-widest">- Sarah L.</h4>
+            </div>
+            <div class="testimonial-card glass p-10 rounded-[3rem] relative">
+                <img src="https://www.diouda.fr/cdn/shop/files/meilleur-soins-homme-peau-noire-metisse-mobile.webp?v=1651584405&width=980" class="w-16 h-16 rounded-2xl absolute -top-8 left-10 border-2 border-blue-500 shadow-2xl">
+                <p class="text-slate-400 italic mb-8 mt-4 leading-relaxed">"L'interface est incroyable. J'ai planifié mon prêt immobilier sans stress."</p>
+                <h4 class="font-black text-white text-sm uppercase tracking-widest">- Ahmed R.</h4>
+            </div>
+            <div class="testimonial-card glass p-10 rounded-[3rem] relative">
+                <img src="ChatGPT Image Feb 9, 2026, 09_37_02 AM.png" class="w-16 h-16 rounded-2xl absolute -top-8 left-10 border-2 border-blue-500 shadow-2xl">
+                <p class="text-slate-400 italic mb-8 mt-4 leading-relaxed">"Précision et simplicité. C'est l'outil indispensable pour gérer ses crédits."</p>
+                <h4 class="font-black text-white text-sm uppercase tracking-widest">- EL farh M.</h4>
+            </div>
+        </div>
+    </section>
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/men/65.jpg"/>
-<p>"Grâce à GoMoney, j'ai pu planifier mes finances avant de demander un prêt."</p>
-<h4>- Ahmed R.</h4>
-</div>
+    <!-- Download App Section -->
+    <section class="download-app py-20 px-6">
+        <div class="max-w-5xl mx-auto glass p-16 rounded-[4rem] text-center border-blue-500/20">
+            <h2 class="text-3xl font-black mb-6 uppercase tracking-tighter">Votre banque, <span class="text-blue-500 underline">partout.</span></h2>
+            <p class="text-slate-400 mb-10 max-w-sm mx-auto">Téléchargez GoMoney sur iOS et Android pour gérer vos prêts en temps réel.</p>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="btn bg-white text-black px-10 py-5 rounded-3xl font-black flex items-center gap-4 hover:scale-105 transition shadow-2xl"><i class="fa-brands fa-apple text-3xl"></i> App Store</a>
+                <a href="#" class="btn bg-blue-600 text-white px-10 py-5 rounded-3xl font-black flex items-center gap-4 hover:scale-105 transition shadow-2xl shadow-blue-500/20"><i class="fa-brands fa-google-play text-2xl"></i> Google Play</a>
+            </div>
+        </div>
+    </section>
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/women/65.jpg"/>
-<p>"L'outil de simulation est très précis et simple d'utilisation."</p>
-<h4>- Fatima Z.</h4>
-</div>
+    <!-- Contact Section -->
+    <section class="contact-section py-32 px-6 text-center">
+        <h2 class="text-3xl font-black mb-6 uppercase tracking-[0.4em] text-blue-500">Contactez-nous</h2>
+        <p class="text-slate-400 mb-12 max-w-lg mx-auto">Notre équipe d'experts est disponible 24/7 pour répondre à toutes vos questions financières.</p>
+        <a href="contct.html" class="btn bg-slate-800 hover:bg-slate-700 text-white px-16 py-6 rounded-3xl font-black uppercase tracking-[0.2em] text-xs transition shadow-2xl border border-white/5">Ouvrir un ticket</a>
+    </section>
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/men/72.jpg"/>
-<p>"J'ai pu comparer plusieurs types de prêts rapidement et choisir le meilleur."</p>
-<h4>- Karim B.</h4>
-</div>
+    <!-- Footer -->
+    <footer class="py-16 border-t border-white/5 text-center bg-[#0a101f]">
+        <p class="text-slate-600 text-xs font-bold uppercase tracking-[0.6em] italic">© 2024 GoMoney. Excellence in Digital Banking.</p>
+    </footer>
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/women/73.jpg"/>
-<p>"Application très intuitive, je recommande GoMoney à tous mes amis."</p>
-<h4>- Leila S.</h4>
-</div>
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const menu = document.getElementById('menu');
 
-<div class="testimonial-card">
-<img src="https://randomuser.me/api/portraits/men/74.jpg"/>
-<p>"Le support client est réactif et très professionnel, merci GoMoney!"</p>
-<h4>- Mohamed T.</h4>
-</div>
-
-</section>
-
-
-<section class="download-app">
-<h2>Téléchargez notre application mobile</h2>
-<p>Disponible sur iOS et Android pour gérer vos prêts partout.</p>
-<a href="#" class="btn">App Store</a>
-<a href="#" class="btn">Google Play</a>
-</section>
-
-<section class="contact-section">
-<h2>Contactez-nous</h2>
-<p>Pour toute question ou assistance, contactez-nous :</p>
-<a href="contct.html" class="btn">Contactez-nous</a>
-</section>
-
-<footer>
-<p>© 2024 GoMoney. Tous droits réservés.</p>
-</footer>
-
-<script>
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const menu = document.getElementById('menu');
-
-menuBtn.addEventListener('click', ()=>{ menu.classList.add('show'); });
-closeBtn.addEventListener('click', ()=>{ menu.classList.remove('show'); });
-</script>
+        menuBtn.addEventListener('click', ()=>{ menu.classList.remove('hidden'); });
+        closeBtn.addEventListener('click', ()=>{ menu.classList.add('hidden'); });
+    </script>
 </body>
 </html>

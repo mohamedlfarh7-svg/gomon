@@ -1,221 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoMoney - FAQ</title>
-<style>
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Roboto', sans-serif;
-}
-body {
-    padding-top: 80px;
-    background:#f4f7fb;
-    color:#333;
-    line-height:1.6;
-    scroll-behavior:smooth;
-}
-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 50px;
-  background: linear-gradient(90deg, #044069, #03406b);
-  color:white;
-  position:fixed;
-  width:100%;
-  top:0;
-  z-index:1000;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-header h1 {
-  font-size:28px;
-  font-weight:700;
-}
-.nav-links {
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-.nav-links ul {
-  display:flex;
-  gap:20px;
-  list-style:none;
-}
-.nav-links ul li a {
-  color:white;
-  text-decoration:none;
-  padding:5px 10px;
-  border-radius:8px;
-  transition:0.3s;
-  font-weight:600;
-}
-.nav-links ul li a:hover {
-  background: rgba(255,255,255,0.1);
-  color:#34c2c7;
-}
-.menu {
-  display:none;
-  font-size:30px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-.close-btn {
-  font-size:30px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-  position:absolute;
-  top:20px;
-  right:20px;
-}
-.mobile-menu {
-  display:none;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:30px;
-  position:fixed;
-  top:0;
-  left:0;
-  height:100vh;
-  width:100%;
-  background:rgba(4,64,105,0.95);
-  transform:translateY(-100%);
-  transition:transform 0.5s ease;
-  z-index:999;
-}
-.mobile-menu.show { transform:translateY(0); }
-.mobile-menu li a { font-size:24px; color:white; }
-section { padding:140px 20px 50px 20px; max-width:900px; margin:0 auto; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide & FAQ - GoMoney</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #0b0f1a; 
+            color: #f8fafc; 
+        }
 
-.faq-card {
-  background:white;
-  padding:40px;
-  border-radius:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.15);
-  animation: fadeIn 1s ease-out;
-  margin-top: 80px;
-  margin-bottom: 80px;
-}
-@keyframes fadeIn { from { opacity:0; transform: translateY(20px);} to { opacity:1; transform: translateY(0);} }
+        .glass { 
+            background: rgba(30, 41, 59, 0.4); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
 
-.faq-card h2 {
-  text-align:center;
-  color:#03406b;
-  font-size:36px;
-  margin-bottom:30px;
-}
-.faq-card h3 {
-  color:#03406b;
-  font-size:20px;
-  margin-top:20px;
-  cursor:pointer;
-  padding-left:40px;
-  position:relative;
-  transition: color 0.3s;
-}
-.faq-card h3::before {
-  content: "❓";
-  position:absolute;
-  left:0;
-  top:0;
-  font-size:24px;
-}
-.faq-card h3:hover { color:#34c2c7; }
-.faq-card p {
-  margin:10px 0 20px 0;
-  line-height:1.7;
-  color:#555;
-  max-height:0;
-  overflow:hidden;
-  padding-left:40px;
-  transition:max-height 0.5s ease;
-}
-.faq-card h3.active + p { max-height:500px; }
+        .faq-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-footer {
-  text-align:center;
-  padding:30px 20px;
-  background: linear-gradient(90deg,#03406b,#044069);
-  color:white;
-  font-size:15px;
-  box-shadow:0 -5px 20px rgba(0,0,0,0.2);
-}
-footer a { color:#34c2c7; text-decoration:none; margin:0 10px; transition:0.3s; }
-footer a:hover { color:#ffffff; text-decoration:underline; }
+        .faq-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
 
-@media(max-width:768px){
-  .menu{display:block;}
-  .nav-links ul.desktop-menu{display:none;}
-  section{padding:140px 15px 50px 15px;}
-}
-</style>
+        .answer-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease-out;
+            opacity: 0;
+        }
+
+        .faq-item.active .answer-content {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+
+        .faq-item.active .icon-chevron {
+            transform: rotate(180deg);
+            color: #3b82f6;
+        }
+
+        .search-glass {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-glass:focus {
+            border-color: #3b82f6;
+            outline: none;
+        }
+    </style>
 </head>
-<body>
-<header>
-  <h1 id="logo">GoMoney</h1>
-  <div class="nav-links">
-    <button class="menu" id="menu-btn">☰</button>
-    <ul class="mobile-menu" id="menu">
-      <li class="close-li"><button class="close-btn" id="close-btn">✖</button></li>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-    <ul class="desktop-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-  </div>
-</header>
+<body class="antialiased min-h-screen flex flex-col">
 
-<section class="faq-card">
-  <h2>Foire Aux Questions (FAQ)</h2>
+    <nav class="w-full z-50 px-6 py-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-8 py-4 rounded-[2rem] shadow-2xl">
+            <h1 class="text-2xl font-extrabold tracking-tighter uppercase italic">GO<span class="text-blue-500">MONEY</span></h1>
+            <div class="hidden md:flex items-center gap-10 text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
+                <a href="index.html" class="hover:text-blue-500 transition">Accueil</a>
+                <a href="simulation.html" class="hover:text-blue-500 transition">Simulation</a>
+                <a href="contct.html" class="hover:text-blue-500 transition">Contact</a>
+                <a href="Aide.html" class="text-blue-500">Aide</a>
+            </div>
+            <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-white/10">
+                <i class="fa-solid fa-circle-question text-xs text-blue-500"></i>
+            </div>
+        </div>
+    </nav>
 
-  <h3>1. Comment utiliser l'outil de simulation de prêt ?</h3>
-  <p>Rendez-vous sur la page "Simulation", entrez votre salaire, type de prêt, montant et durée, puis cliquez sur "Calculer les Mensualités".</p>
+    <main class="flex-grow flex flex-col items-center px-6 py-10">
+        <div class="max-w-3xl w-full">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter uppercase italic">Centre d'<span class="text-blue-500">Assistance</span></h2>
+                <p class="text-slate-500 font-medium uppercase tracking-[0.3em] text-xs">Trouvez des réponses immédiates à vos questions</p>
+            </div>
 
-  <h3>2. Quels types de prêts puis-je simuler ?</h3>
-  <p>Prêts personnels, immobiliers (maison, appartement, terrain) et pour petites entreprises.</p>
+            <div class="relative mb-12">
+                <i class="fa-solid fa-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                <input type="text" id="faqSearch" placeholder="RECHERCHER UNE SOLUTION..." 
+                    class="w-full search-glass rounded-[2rem] py-5 px-16 text-sm font-bold tracking-widest text-white placeholder:text-slate-600 transition-all">
+            </div>
 
-  <h3>3. Comment sont calculées les mensualités ?</h3>
-  <p>Selon le montant du prêt, la durée et le taux d'intérêt correspondant au type de prêt choisi.</p>
+            <div class="space-y-4" id="faqContainer">
+                
+                <div class="faq-item faq-card p-6 md:p-8 rounded-[2rem] cursor-pointer">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-sm md:text-base font-bold text-white uppercase tracking-tight">Comment fonctionne la simulation ?</h4>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-slate-500"></i>
+                    </div>
+                    <div class="answer-content">
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Notre algorithme utilise les taux d'intérêt actuels du marché marocain. Il calcule vos mensualités en fonction de votre salaire pour s'assurer que votre ratio d'endettement ne dépasse pas 40%.
+                        </p>
+                    </div>
+                </div>
 
-  <h3>4. Puis-je modifier mes informations après avoir soumis la simulation ?</h3>
-  <p>Oui, revenez à la page de simulation pour modifier les informations et recalculer les mensualités.</p>
+                <div class="faq-item faq-card p-6 md:p-8 rounded-[2rem] cursor-pointer">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-sm md:text-base font-bold text-white uppercase tracking-tight">Quels sont les taux appliqués ?</h4>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-slate-500"></i>
+                    </div>
+                    <div class="answer-content">
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Les taux varient selon le projet : 4% pour l'immobilier, 9% pour le prêt personnel, et 7% pour les entreprises. Ces taux sont indicatifs pour votre simulation.
+                        </p>
+                    </div>
+                </div>
 
-  <h3>5. Qui puis-je contacter pour plus d'aide ?</h3>
-  <p>Contactez notre équipe via la page "Contact" pour toute assistance.</p>
-</section>
+                <div class="faq-item faq-card p-6 md:p-8 rounded-[2rem] cursor-pointer">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-sm md:text-base font-bold text-white uppercase tracking-tight">Le résultat est-il définitif ?</h4>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-slate-500"></i>
+                    </div>
+                    <div class="answer-content">
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Non, GoMoney est un outil de simulation. Le résultat "Accepté" ou "Refusé" est basé sur des critères standards, mais seul un conseiller bancaire peut valider votre dossier final.
+                        </p>
+                    </div>
+                </div>
 
-<footer>
-<p>© 2024 GoMoney. Tous droits réservés. 
-<a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">LinkedIn</a></p>
-</footer>
+                <div class="faq-item faq-card p-6 md:p-8 rounded-[2rem] cursor-pointer">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-sm md:text-base font-bold text-white uppercase tracking-tight">Comment contacter un conseiller ?</h4>
+                        <i class="fa-solid fa-chevron-down icon-chevron transition-transform duration-300 text-slate-500"></i>
+                    </div>
+                    <div class="answer-content">
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Rendez-vous sur notre page "Contact" pour nous envoyer un message directement. Notre équipe vous répondra sous 24h.
+                        </p>
+                    </div>
+                </div>
 
-<script>
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const menu = document.getElementById('menu');
-menuBtn.addEventListener('click', ()=>{ menu.classList.add('show'); });
-closeBtn.addEventListener('click', ()=>{ menu.classList.remove('show'); });
+            </div>
+        </div>
+    </main>
 
-const questions = document.querySelectorAll('.faq-card h3');
-questions.forEach(q => {
-  q.addEventListener('click', ()=>{
-    q.classList.toggle('active');
-  });
-});
-</script>
+    <footer class="py-10 text-center opacity-30 text-[10px] font-bold tracking-[0.5em] uppercase">
+        © 2024 GoMoney - Digital Experience
+    </footer>
+
+    <script>
+        // Gestion de l'ouverture des questions
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Fermer tous les autres
+                faqItems.forEach(other => other.classList.remove('active'));
+                
+                // Ouvrir celui-ci s'il n'était pas déjà ouvert
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Logique de recherche
+        const searchInput = document.getElementById('faqSearch');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            faqItems.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(term)) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
+    </script>
 </body>
 </html>

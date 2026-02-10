@@ -1,250 +1,128 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Résultat - GoMoney</title>
-<link rel="stylesheet" href="style.css">
-<style>
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
-body {
-    background:#f4f7fb;
-    color:#333;
-    line-height:1.6;
-    scroll-behavior:smooth;
-}
-
-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 50px;
-    background: linear-gradient(90deg, #044069, #03406b);
-    color:white;
-    position:fixed;
-    width:100%;
-    top:0;
-    z-index:1000;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-header h1 {
-    font-size:28px;
-    font-weight:700;
-}
-
-.nav-links {
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.nav-links ul {
-    display:flex;
-    gap:20px;
-    list-style:none;
-}
-
-.nav-links ul li a {
-    color:white;
-    text-decoration:none;
-    padding:5px 10px;
-    border-radius:8px;
-    transition:0.3s;
-    font-weight:600;
-}
-
-.nav-links ul li a:hover {
-    background: rgba(255,255,255,0.1);
-    color:#34c2c7;
-}
-
-.menu {
-    display:none;
-    font-size:30px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-
-.close-btn {
-    font-size:30px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-    position:absolute;
-    top:20px;
-    right:20px;
-}
-
-.mobile-menu {
-    display:none;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:30px;
-    position:fixed;
-    top:0;
-    left:0;
-    height:100vh;
-    width:100%;
-    background:rgba(4,64,105,0.95);
-    transform:translateY(-100%);
-    transition:transform 0.5s ease;
-    z-index:999;
-}
-
-.mobile-menu.show {
-    transform:translateY(0);
-}
-
-.mobile-menu li a {
-    font-size:24px;
-    color:white;
-}
-
-section {
-    padding:120px 20px 50px 20px;
-    max-width:800px;
-    margin:0 auto;
-}
-
-h2 {
-    margin-bottom:20px;
-    font-size:32px;
-    color:#044069;
-    text-align:center;
-}
-
-#result {
-    max-width: 650px;
-    margin: 30px auto;
-    padding: 40px 30px;
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    border-left: 6px solid #34c2c7;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#result:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-}
-
-#result p {
-    font-size: 1.15rem;
-    margin: 15px 0;
-    color: #555;
-}
-
-#result strong {
-    color: #0288d1;
-    font-weight: 600;
-}
-
-.btn {
-    display: inline-block;
-    margin: 40px auto 20px auto;
-    background: linear-gradient(135deg, #34c2c7, #0288d1);
-    color: white;
-    border: none;
-    padding: 18px 40px;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    text-align: center;
-}
-
-.btn:hover {
-    background: linear-gradient(135deg, #0288d1, #03406b);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-
-footer {
-    text-align: center;
-    padding: 30px 20px;
-    background: linear-gradient(90deg, #03406b, #044069);
-    color: white;
-    font-size: 15px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-}
-
-footer a {
-    color: #34c2c7;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-footer a:hover {
-    color: #ffffff;
-    text-decoration: underline;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultat Simulation - GoMoney</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f1a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .result-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .status-accepted { color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-refused { color: #ef4444; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); }
+    </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col">
 
-<header>
-  <h1 id="logo">GoMoney</h1>
-  <div class="nav-links">
-    <button class="menu" id="menu-btn">☰</button>
-    <ul class="mobile-menu" id="menu">
-      <li class="close-li"><button class="close-btn" id="close-btn">✖</button></li>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-    <ul class="desktop-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-  </div>
-</header>
+    <!-- Navigation -->
+    <nav class="w-full z-50 px-6 py-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-8 py-4 rounded-[2rem] shadow-2xl">
+            <h1 class="text-2xl font-extrabold tracking-tighter uppercase italic">GO<span class="text-blue-500">MONEY</span></h1>
+            <div class="hidden md:flex items-center gap-10 text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
+                <a href="index.html" class="hover:text-blue-500 transition">Accueil</a>
+                <a href="simulation.html" class="hover:text-blue-500 transition">Simulation</a>
+                <a href="contct.html" class="hover:text-blue-500 transition">Contact</a>
+            </div>
+            <button id="menu-btn" class="md:hidden text-white" title="Ouvrir le menu"><i class="fa-solid fa-bars-staggered"></i></button>
+        </div>
+    </nav>
 
-<section>
-<h2>Résultat de votre simulation</h2>
-<div id="result"></div>
-</section>
+    <!-- Result Content -->
+    <main class="flex-grow flex items-center justify-center px-6 py-12">
+        <div class="max-w-xl w-full">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-black text-white mb-2 tracking-tighter uppercase">Analyse de <span class="text-blue-500">Dossier</span></h2>
+                <p class="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px]">Résultats générés instantanément</p>
+            </div>
 
-<footer>
-<p>© 2024 GoMoney. Tous droits réservés.</p>
-</footer>
+            <div id="result" class="result-card p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                <!-- Status Icon background decoration -->
+                <div id="statusIconBg" class="absolute -top-10 -right-10 text-[12rem] opacity-5"></div>
+                
+                <div class="relative z-10 space-y-8">
+                    <!-- Status Badge -->
+                    <div id="decisionBadge" class="inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mx-auto lg:mx-0">
+                        <i id="decisionIcon"></i>
+                        <span id="decisionLabel">Analyse en cours...</span>
+                    </div>
+
+                    <!-- Main Data Display -->
+                    <div class="grid grid-cols-2 gap-8 border-y border-white/5 py-8">
+                        <div>
+                            <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-1">Mensualité</p>
+                            <h3 class="text-3xl font-black text-white italic"><span id="resMensualite">0.00</span> <span class="text-sm text-slate-500 not-italic">DH</span></h3>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-1">Type de Prêt</p>
+                            <h3 id="resType" class="text-xl font-bold text-slate-200">--</h3>
+                        </div>
+                    </div>
+
+                    <!-- Details List -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Durée du crédit</span>
+                            <span class="text-white font-black"><span id="resDuree">0</span> ANS</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Taux d'intérêt</span>
+                            <span class="text-blue-500 font-black"><span id="resTaux">0</span>%</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-t border-white/5 pt-4">
+                            <span class="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Revenu déclaré</span>
+                            <span class="text-white font-black"><span id="resSalaire">0</span> DH</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <div class="pt-6">
+                        <a href="simulation.html" class="block w-full bg-slate-800 hover:bg-slate-700 text-white text-center py-5 rounded-2xl font-black uppercase tracking-widest text-xs transition border border-white/10 shadow-xl">
+                            <i class="fa-solid fa-rotate-left mr-2"></i> Nouvelle Simulation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-10 text-center opacity-30 text-[10px] font-bold tracking-[0.5em] uppercase">
+        © 2024 GoMoney - Digital Experience
+    </footer>
 
 <script>
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const menu = document.getElementById('menu');
-menuBtn.addEventListener('click', ()=>{ menu.classList.add('show'); });
-closeBtn.addEventListener('click', ()=>{ menu.classList.remove('show'); });
+const data = JSON.parse(localStorage.getItem("loanData"));
 
-const typePret = localStorage.getItem("typePret");
-const dureePret = localStorage.getItem("dureePret");
-const tauxInteret = parseFloat(localStorage.getItem("tauxInteret"));
-const mensualite = parseFloat(localStorage.getItem("mensualite"));
+if (!data) {
+    window.location.href = "simulation.html";
+}
 
-document.getElementById("result").innerHTML = `
-  <p>Type de prêt : <strong>${typePret}</strong></p>
-  <p>Durée : <strong>${dureePret} ans</strong></p>
-  <p>Taux d’intérêt : <strong>${(tauxInteret*100).toFixed(1)}%</strong></p>
-  <p>Mensualité estimée : <strong>${mensualite.toFixed(2)} DH/mois</strong></p>
-  <p>Décision : <strong>${localStorage.getItem("decision")}</strong></p>
-  <p>Salaire mensuel : <strong>${localStorage.getItem("salaire")} DH</strong></p>
-`;
+document.getElementById("resType").innerText = data.type;
+document.getElementById("resDuree").innerText = data.duree;
+document.getElementById("resTaux").innerText = data.taux;
+document.getElementById("resMensualite").innerText = Number(data.mensualite).toLocaleString('fr-FR');
+document.getElementById("resSalaire").innerText = data.salaire ? Number(data.salaire).toLocaleString('fr-FR') : "--";
+
+const badge = document.getElementById("decisionBadge");
+const label = document.getElementById("decisionLabel");
+const icon = document.getElementById("decisionIcon");
+const iconBg = document.getElementById("statusIconBg");
+
+if (data.decision === "accepté") {
+    badge.classList.add("status-accepted");
+    label.innerText = "Dossier Accepté";
+    icon.className = "fa-solid fa-circle-check";
+    iconBg.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+    iconBg.style.color = "#10b981";
+} else {
+    badge.classList.add("status-refused");
+    label.innerText = "Dossier Refusé";
+    icon.className = "fa-solid fa-circle-xmark";
+    iconBg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+    iconBg.style.color = "#ef4444";
+}
 </script>
 </body>
 </html>

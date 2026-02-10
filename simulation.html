@@ -1,292 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulation - GoMoney</title>
+<title>Simulation Pro - GoMoney</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Roboto', sans-serif;
-}
-
-body {
-    background:#f4f7fb;
-    color:#333;
-    line-height:1.6;
-    scroll-behavior:smooth;
-}
-
-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 50px;
-    background: linear-gradient(90deg, #044069, #03406b);
-    color:white;
-    position:fixed;
-    width:100%;
-    top:0;
-    z-index:1000;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-header h1 {
-    font-size:28px;
-    font-weight:700;
-}
-
-.nav-links {
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.nav-links ul {
-    display:flex;
-    gap:20px;
-    list-style:none;
-}
-
-.nav-links ul li a {
-    color:white;
-    text-decoration:none;
-    padding:5px 10px;
-    border-radius:8px;
-    transition:0.3s;
-    font-weight:600;
-}
-
-.nav-links ul li a:hover {
-    background: rgba(255,255,255,0.1);
-    color:#34c2c7;
-}
-
-.menu {
-    display:none;
-    font-size:30px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-
-.close-btn {
-    font-size:30px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-    position:absolute;
-    top:20px;
-    right:20px;
-}
-
-.mobile-menu {
-    display:none;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:30px;
-    position:fixed;
-    top:0;
-    left:0;
-    height:100vh;
-    width:100%;
-    background:rgba(4,64,105,0.95);
-    transform:translateY(-100%);
-    transition:transform 0.5s ease;
-    z-index:999;
-}
-
-.mobile-menu.show {
-    transform:translateY(0);
-}
-
-.mobile-menu li a {
-    font-size:24px;
-    color:white;
-}
-
-section {
-    padding:120px 20px 50px 20px;
-    max-width:800px;
-    margin:0 auto;
-}
-
-h2 {
-    margin-bottom:20px;
-    font-size:32px;
-    color:#044069;
-    text-align:center;
-}
-
-form {
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.1);
-}
-
-form label {
-    font-weight:600;
-}
-
-form input,
-form select {
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:16px;
-}
-
-form button {
-    background:#34c2c7;
-    color:white;
-    border:none;
-    padding:15px;
-    border-radius:12px;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-form button:hover {
-    background:#0288d1;
-    transform:scale(1.05);
-}
-
-.Return {
-    text-align:center;
-    margin:30px 0;
-}
-
-.Return button {
-    padding:12px 25px;
-    border-radius:12px;
-    border:none;
-    background:#03406b;
-    color:white;
-    cursor:pointer;
-}
-
-.Return button a {
-    color:white;
-    text-decoration:none;
-}
-
-footer {
-    text-align:center;
-    padding:30px 20px;
-    background:linear-gradient(90deg, #03406b, #044069);
-    color:white;
-    margin-top:50px;
-}
-
-@media(max-width:768px){
-  .menu {
-      display:block;
-  }
-  .nav-links ul.desktop-menu {
-      display:none;
-  }
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+body{font-family:'Plus Jakarta Sans',sans-serif;background-color:#0b0f1a;color:#f8fafc}
+.glass{background:rgba(30,41,59,.4);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
+.slider{width:100%;height:6px;background:#1e293b;border-radius:5px;outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;background:#3b82f6;cursor:pointer;border-radius:50%;border:4px solid #0b0f1a;box-shadow:0 0 15px rgba(59,130,246,.5)}
+.input-card{background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.05);transition:.3s}
+.input-card:focus-within{border-color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,.1)}
 </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col">
 
-<header>
-  <h1 id="logo">GoMoney</h1>
-  <div class="nav-links">
-    <button class="menu" id="menu-btn">☰</button>
-    <ul class="mobile-menu" id="menu">
-      <li class="close-li"><button class="close-btn" id="close-btn">✖</button></li>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-    <ul class="desktop-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="simulation.html">Simulation</a></li>
-      <li><a href="contct.html">Contact</a></li>
-      <li><a href="Aide.html">Aide / FAQ</a></li>
-    </ul>
-  </div>
-</header>
+<nav class="w-full z-50 px-6 py-6">
+<div class="max-w-7xl mx-auto flex justify-between items-center glass px-8 py-4 rounded-[2rem] shadow-2xl">
+<h1 class="text-2xl font-extrabold tracking-tighter uppercase italic">GO<span class="text-blue-500">MONEY</span></h1>
+<div class="hidden md:flex items-center gap-10 text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
+<a href="#" class="hover:text-blue-500 transition">Accueil</a>
+<a href="simulation.html" class="text-blue-500">Simulation</a>
+<a href="#" class="hover:text-blue-500 transition">Contact</a>
+</div>
+<div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-white/10">
+<i class="fa-solid fa-user text-xs text-blue-500"></i>
+</div>
+</div>
+</nav>
 
-<section id="simulation">
-  <h2>Simulation de Prêt</h2>
-  <form id="loanForm">
-    <label for="salary">Salaire Mensuel (MAD):</label>
-    <input type="number" id="salary" name="salary" required>
+<main class="flex-grow flex items-center justify-center px-6 py-10">
+<div class="max-w-3xl w-full">
+<div class="text-center mb-12">
+<h2 class="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">
+Votre Prêt sur <span class="text-blue-500 italic">Mesure</span>
+</h2>
+<p class="text-slate-500 font-medium uppercase tracking-[0.3em] text-xs">
+Configurez les paramètres ci-dessous
+</p>
+</div>
 
-    <label for="loanType">Type de Prêt:</label>
-    <select id="loanType" name="loanType" required>
-      <option value="">-- Choisissez un type --</option>
-      <option value="Personnel">Prêt Personnel</option>
-      <option value="Maison">Prêt Maison</option>
-      <option value="Appartement">Prêt Appartement</option>
-      <option value="Terrain">Terrain</option>
-      <option value="Petite entreprise">Petite entreprise</option>
-    </select>
+<form id="loanForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <label for="loanAmount">Montant du Prêt (MAD):</label>
-    <input type="number" id="loanAmount" name="loanAmount" required>
+<div class="input-card p-6 rounded-[2rem] md:col-span-2">
+<div class="flex justify-between items-end mb-6">
+<div>
+<p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-1">Revenu Mensuel</p>
+<h4 class="text-slate-300 font-bold">Votre Salaire</h4>
+</div>
+<div class="text-right">
+<span id="salaryVal" class="text-3xl font-black text-white italic">5,000</span>
+<span class="text-blue-500 font-bold ml-1">MAD</span>
+</div>
+</div>
+<input type="range" id="salary" min="2000" max="100000" step="500" value="5000" class="slider" title="Revenu Mensuel">
+</div>
 
-    <label for="loanTerm">Durée du Prêt (années):</label>
-    <input type="number" id="loanTerm" name="loanTerm" required>
+<div class="input-card p-6 rounded-[2rem] md:col-span-2">
+<label class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 block">
+Type de financement
+</label>
+<div class="relative">
+<select id="loanType" required title="Type de financement" class="w-full bg-slate-900 text-white rounded-2xl px-6 py-4 appearance-none focus:ring-2 focus:ring-blue-500 font-bold">
+<option value="">Sélectionnez un type</option>
+<option value="Personnel">Prêt Personnel (9%)</option>
+<option value="Maison">Prêt Immobilier (4%)</option>
+<option value="Appartement">Prêt Appartement (4.5%)</option>
+<option value="Terrain">Achat de Terrain (5.5%)</option>
+<option value="Petite entreprise">Crédit Entreprise (7%)</option>
+</select>
+<i class="fa-solid fa-chevron-down absolute right-6 top-1/2 -translate-y-1/2 text-blue-500 pointer-events-none"></i>
+</div>
+</div>
 
-    <button type="submit">Calculer les Mensualités</button>
-  </form>
-</section>
+<div class="input-card p-6 rounded-[2rem]">
+<p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 italic">
+Montant Souhaité
+</p>
+<div class="mb-6">
+<span id="loanAmountVal" class="text-3xl font-black text-white italic">50,000</span>
+<span class="text-slate-500 font-bold ml-1">MAD</span>
+</div>
+<input type="range" id="loanAmount" min="5000" max="2000000" step="5000" value="50000" class="slider" title="Montant Souhaité">
+</div>
 
-<footer>
-  <p>© 2024 GoMoney. Tous droits réservés.</p>
-</footer>
+<div class="input-card p-6 rounded-[2rem]">
+<p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4 italic">
+Durée de remboursement
+</p>
+<div class="mb-6">
+<span id="loanTermVal" class="text-3xl font-black text-white italic">5</span>
+<span class="text-slate-500 font-bold ml-1">ANS</span>
+</div>
+<input type="range" id="loanTerm" min="1" max="30" step="1" value="5" class="slider" title="Durée de remboursement">
+</div>
+
+<button type="submit" class="md:col-span-2 bg-blue-600 hover:bg-blue-500 text-white font-black py-6 rounded-[2rem] uppercase tracking-[0.3em] transition transform hover:scale-[1.02] shadow-2xl shadow-blue-500/20 mt-4 flex items-center justify-center gap-4">
+<i class="fa-solid fa-bolt-lightning"></i>
+Calculer ma mensualité
+</button>
+
+</form>
+</div>
+</main>
 
 <script>
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const menu = document.getElementById('menu');
+const formatNumber=n=>Number(n).toLocaleString('fr-FR');
 
-menuBtn.addEventListener('click', ()=>{ menu.classList.add('show'); });
-closeBtn.addEventListener('click', ()=>{ menu.classList.remove('show'); });
+const setupSlider=id=>{
+const input=document.getElementById(id);
+const display=document.getElementById(id+'Val');
+display.textContent=formatNumber(input.value);
+input.addEventListener('input',()=>{
+display.textContent=formatNumber(input.value);
+});
+};
 
-document.getElementById("loanForm").addEventListener("submit", function(event){
-  event.preventDefault();
+['salary','loanAmount','loanTerm'].forEach(setupSlider);
 
-  const salaire = parseFloat(document.getElementById('salary').value);
-  const typePret = document.getElementById('loanType').value;
-  const montantPret = parseFloat(document.getElementById('loanAmount').value);
-  const dureePret = parseFloat(document.getElementById('loanTerm').value);
+document.getElementById("loanForm").addEventListener("submit",function(e){
+e.preventDefault();
 
-  let tauxInteret;
-  if(typePret==='Personnel') tauxInteret=0.09;
-  else if(typePret==='Maison') tauxInteret=0.04;
-  else if(typePret==='Appartement') tauxInteret=0.045;
-  else if(typePret==='Terrain') tauxInteret=0.055;
-  else if(typePret==='Petite entreprise') tauxInteret=0.07;
-  else return alert("Veuillez choisir un type de prêt valide.");
+const salaire=parseFloat(document.getElementById('salary').value);
+const type=document.getElementById('loanType').value;
+const montant=parseFloat(document.getElementById('loanAmount').value);
+const duree=parseFloat(document.getElementById('loanTerm').value);
 
-  const mensualite = (montantPret*(tauxInteret/12)) / (1 - Math.pow(1 + tauxInteret/12, -dureePret*12));
-  const decision = mensualite < salaire*0.4 ? "accepté" : "refusé";
+const tauxMap={
+'Personnel':0.09,
+'Maison':0.04,
+'Appartement':0.045,
+'Terrain':0.055,
+'Petite entreprise':0.07
+};
 
-  localStorage.setItem("typePret", typePret);
-  localStorage.setItem("dureePret", dureePret);
-  localStorage.setItem("tauxInteret", tauxInteret);
-  localStorage.setItem("mensualite", mensualite);
-  localStorage.setItem("decision", decision);
-  localStorage.setItem("salaire", salaire);
+if(!tauxMap[type]){
+alert("Veuillez sélectionner un type de financement");
+return;
+}
 
-  window.location.href="result.html";
+const tauxInteret=tauxMap[type];
+const i=tauxInteret/12;
+const n=duree*12;
+
+let mensualite;
+
+if(i===0){
+mensualite=montant/n;
+}else{
+mensualite=(montant*i)/(1-Math.pow(1+i,-n));
+}
+
+const ratioEndettement=(mensualite/salaire)*100;
+const decision=ratioEndettement<=40?"accepté":"refusé";
+
+localStorage.setItem("loanData",JSON.stringify({
+type,
+duree,
+mensualite:mensualite.toFixed(2),
+decision,
+montant,
+taux:(tauxInteret*100).toFixed(1),
+ratio:ratioEndettement.toFixed(1)
+}));
+
+window.location.href="result.html";
 });
 </script>
+
 </body>
 </html>
